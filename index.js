@@ -16,7 +16,7 @@ const renames = {
 
 const listExport = {
   imports: "",
-  map: [],
+  map: "",
 };
 
 const toKebab = (fname) =>
@@ -52,26 +52,18 @@ const changeAttributes = (_svgText) => {
 
 const makeCode = ({ fname, jsx }) => {
   return prettier.format(
-    `
-import React from "react";
+    `import React from "react";
 
-export const ${fname}: React.FC<React.SVGAttributes<SVGSVGElement>> =
-    ({ stroke="currentColor", fill="currentColor", ...svgProps }) => {
-  return (
-    ${jsx}
-  );
-}
-`,
+    export const ${fname}: React.FC<React.SVGAttributes<SVGSVGElement>> =
+        ({ stroke="currentColor", fill="currentColor", ...svgProps }) =>
+      { return ( ${jsx} ); }`,
     { parser: "babel" }
   );
 };
 
 const makeMapJs = (mapExports) =>
   prettier.format(
-    `
-${mapExports.imports}
-export const iconList = {
-  ${mapExports.map.join("")}}`,
+    `${mapExports.imports}\n export const iconList = { ${mapExports.map}}`,
     { praser: "babel" }
   );
 
@@ -102,16 +94,12 @@ async function main() {
         });
 
         listExport.imports += makeImport(fname);
-        listExport.map.push(makeProp(fname));
+        listExport.map += makeProp(fname);
       })
     );
-    fs.writeFile(
-      path.join(__dirname, "iconList.ts"),
-      makeMapJs(listExport),
-      function (err) {
-        if (err) console.error(err);
-      }
-    );
+    fs.writeFile("./iconList.ts", makeMapJs(listExport), function (err) {
+      if (err) console.error(err);
+    });
   });
 }
 
