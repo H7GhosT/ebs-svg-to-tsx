@@ -6,8 +6,7 @@ const svgtojsx = require("svg-to-jsx");
 const prettier = require("prettier");
 
 const iconsDir = "./icons";
-const resultDir =
-  "C:/Users/daniel.suruceanu/Desktop/prsnt/admin-panel/src/components/Icon/svgs";
+const resultDir = "./result";
 const exportFolder = "svgs";
 
 const renames = {
