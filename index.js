@@ -6,8 +6,7 @@ const svgtojsx = require("svg-to-jsx");
 const prettier = require("prettier");
 
 const iconsDir = "./icons";
-const resultDir =
-  "C:/Users/daniel.suruceanu/Desktop/prsnt/admin-panel/src/components/Icon/svgs";
+const resultDir = "./svgs";
 const exportFolder = "svgs";
 
 const renames = {
@@ -15,7 +14,7 @@ const renames = {
   X: "Cross",
 };
 
-const mapExports = {
+const listExport = {
   imports: "",
   map: [],
 };
@@ -73,7 +72,7 @@ const makeMapJs = (mapExports) =>
 ${mapExports.imports}
 export const iconList = {
   ${mapExports.map.join("  ")}}`,
-    { semi: false, praser: "babel" }
+    { praser: "babel" }
   );
 
 async function main() {
@@ -102,13 +101,13 @@ async function main() {
           if (err) console.log(err);
         });
 
-        mapExports.imports += makeImport(fname);
-        mapExports.map.push(makeProp(fname));
+        listExport.imports += makeImport(fname);
+        listExport.map.push(makeProp(fname));
       })
     );
     fs.writeFile(
-      path.join(__dirname, "map.js"),
-      prettier.format(makeMapJs(mapExports), { semi: false, praser: "babel" }),
+      path.join(__dirname, "iconList.ts"),
+      makeMapJs(listExport),
       function (err) {
         if (err) console.error(err);
       }
