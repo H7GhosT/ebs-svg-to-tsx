@@ -71,7 +71,7 @@ const makeMapJs = (mapExports) =>
     `
 ${mapExports.imports}
 export const iconList = {
-  ${mapExports.map.join("  ")}}`,
+  ${mapExports.map.join("")}}`,
     { praser: "babel" }
   );
 
